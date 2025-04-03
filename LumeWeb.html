@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LumeWeb (Corrected - No FAQ)</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/theme/material-darker.min.css" onerror="console.error('Failed to load CodeMirror theme CSS: material-darker')">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/theme/neat.min.css" onerror="console.error('Failed to load CodeMirror theme CSS: neat')">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/show-hint.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/dialog/dialog.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/search/matchesonscrollbar.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/show-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/xml-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/html-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/css-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/javascript-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/closetag.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/dialog/dialog.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/search/searchcursor.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/search/search.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/scroll/annotatescrollbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/search/matchesonscrollbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/search/jump-to-line.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/search/match-highlighter.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Variables for Theming */
+        :root { /* Default: White Theme */
+            --bg-color: #ffffff; --text-color: #202123; --editor-bg-color: #f7f7f8;
+            --tab-active-bg-color: #ffffff; --tab-text-color: #4b5563;
+            --tab-active-text-color: #111827; --tab-border-color: #ececf1;
+            --border-color: #ececf1; --primary-color: #10a37f; --primary-text-color: #ffffff;
+            --header-bg-color: #ffffff; --header-text-color: #202123;
+            --button-secondary-bg-color: #e5e7eb; --button-secondary-text-color: #374151;
+            --codemirror-theme: 'neat'; --link-color: #10a37f; --resizer-color: #ececf1;
+            --resizer-hover-color: #d1d5db; --autosave-indicator-color: #10b981;
+            --dropdown-bg-color: var(--bg-color); --dropdown-border-color: var(--border-color);
+            --dropdown-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --input-bg-color: var(--bg-color); --input-border-color: var(--border-color);
+            --input-text-color: var(--text-color);
+            --swatch-border-color: color-mix(in srgb, var(--text-color) 15%, transparent);
+            --icon-stroke-width: 2;
+            /* Icon Colors - Light Theme */
+            --save-html-icon-color: #3b82f6; /* Blue */
+            --save-css-icon-color: #8b5cf6;  /* Purple */
+            --save-js-icon-color: #f59e0b;   /* Yellow */
+        }
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-color: #1e1e1e; --text-color: #cccccc; --editor-bg-color: #252526;
+            --tab-active-bg-color: #1e1e1e; --tab-text-color: #9ca3af;
+            --tab-active-text-color: #e5e7eb; --tab-border-color: #3c3c3c;
+            --border-color: #3c3c3c; --primary-color: #007acc; --primary-text-color: #ffffff;
+            --header-bg-color: #333333; --header-text-color: #cccccc;
+            --button-secondary-bg-color: #3a3d41; --button-secondary-text-color: #cccccc;
+            --codemirror-theme: 'material-darker'; --link-color: #3794ff; --resizer-color: #3c3c3c;
+            --resizer-hover-color: #5a5a5a; --autosave-indicator-color: #34d399;
+            --dropdown-bg-color: #2d2d2d; --dropdown-border-color: #3c3c3c;
+            --input-bg-color: #3c3c3c; --input-border-color: #5a5a5a;
+            --input-text-color: var(--text-color);
+            --swatch-border-color: color-mix(in srgb, var(--text-color) 30%, transparent);
+            /* Icon Colors - Dark Theme (lighter shades) */
+            --save-html-icon-color: #60a5fa; /* Lighter Blue */
+            --save-css-icon-color: #a78bfa;  /* Lighter Purple */
+            --save-js-icon-color: #facc15;   /* Lighter Yellow */
+        }
+        /* White Theme (uses :root defaults) */
+        [data-theme="white"] { }
+
+        /* General Styles */
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Inter', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; overflow: hidden; height: 100vh; display: flex; flex-direction: column; margin: 0; }
+        /* Utility classes for applying theme colors */
+        .bg-app { background-color: var(--bg-color); } .text-app { color: var(--text-color); } .bg-editor { background-color: var(--editor-bg-color); } .border-app { border-color: var(--border-color); } .bg-primary { background-color: var(--primary-color); } .text-primary { color: var(--primary-text-color); } .bg-header { background-color: var(--header-bg-color); } .text-header { color: var(--header-text-color); } .bg-button-secondary { background-color: var(--button-secondary-bg-color); } .text-button-secondary { color: var(--button-secondary-text-color); } .hover-bg-primary-dark:hover { background-color: color-mix(in srgb, var(--primary-color) 85%, black); } .hover-bg-secondary-dark:hover { background-color: color-mix(in srgb, var(--button-secondary-bg-color) 85%, black); } .text-link { color: var(--link-color); }
+
+        #main-content { flex-grow: 1; display: flex; overflow: hidden; }
+        #editor-panel, #preview-panel { flex-shrink: 0; flex-grow: 0; display: flex; flex-direction: column; overflow: hidden; position: relative; height: 100%; /* Ensure panels take height */ }
+        #editor-panel { width: 50%; } #preview-panel { width: 50%; }
+
+        /* Tab Styles */
+        .tab-button { padding: 0.6rem 1.2rem; border: 1px solid transparent; border-top: 3px solid transparent; border-bottom: none; cursor: pointer; background-color: var(--editor-bg-color); border-top-left-radius: 0.375rem; border-top-right-radius: 0.375rem; margin-right: 2px; font-size: 0.875rem; color: var(--tab-text-color); transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out, border-color 0.15s ease-in-out, transform 0.15s ease-out; position: relative; bottom: -1px; /* Overlap border */ }
+        .tab-button.active { background-color: var(--tab-active-bg-color); border-left-color: var(--tab-border-color); border-right-color: var(--tab-border-color); border-top-color: var(--primary-color); color: var(--tab-active-text-color); font-weight: 600; border-bottom-color: transparent; }
+        .tab-button:hover:not(.active) { background-color: color-mix(in srgb, var(--editor-bg-color) 90%, var(--text-color) 5%); transform: translateY(-1px); }
+        .tab-content-container { border-top: 1px solid var(--tab-border-color); background-color: var(--tab-active-bg-color); flex-grow: 1; position: relative; overflow: hidden; }
+        .tab-content { height: 100%; width: 100%; padding: 0; overflow: hidden; position: absolute; top: 0; left: 0; opacity: 0; visibility: hidden; transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out; z-index: 0; }
+        .tab-content.active { opacity: 1; visibility: visible; z-index: 1; }
+
+        /* CodeMirror Styles */
+        .CodeMirror { border: none; font-size: 14px; height: 100% !important; width: 100%; background-color: transparent; position: absolute !important; top: 0; left: 0; }
+        .tab-content .CodeMirror { position: absolute !important; } /* Ensure CM stays within tab */
+        /* Hints Addon */
+        .CodeMirror-hints { position: absolute; z-index: 10; overflow: hidden; list-style: none; margin: 0; padding: 2px; box-shadow: var(--dropdown-shadow); border-radius: 4px; border: 1px solid var(--dropdown-border-color); background: var(--dropdown-bg-color); font-size: 90%; font-family: monospace; max-height: 20em; overflow-y: auto; color: var(--text-color); } .CodeMirror-hint { margin: 0; padding: 2px 5px; border-radius: 3px; white-space: pre; color: var(--text-color); cursor: pointer; } li.CodeMirror-hint-active { background: var(--primary-color); color: var(--primary-text-color); }
+        /* Dialog Addon */
+        .CodeMirror-dialog { background-color: var(--dropdown-bg-color); color: var(--text-color); border: 1px solid var(--dropdown-border-color); box-shadow: var(--dropdown-shadow); border-radius: 4px; padding: 0.5rem; z-index: 15 !important; } .CodeMirror-dialog input { background-color: var(--input-bg-color); color: var(--input-text-color); border: 1px solid var(--input-border-color); border-radius: 3px; padding: 0.2rem 0.4rem; margin: 0 0.5rem; } .CodeMirror-dialog button { background-color: var(--button-secondary-bg-color); color: var(--button-secondary-text-color); border: none; padding: 0.2rem 0.6rem; border-radius: 3px; cursor: pointer; margin-left: 0.5rem; } .CodeMirror-search-label { font-size: 0.9em; } .CodeMirror-search-hint { font-size: 0.8em; color: #888; }
+
+        #preview { background-color: var(--editor-bg-color); border: 1px solid var(--border-color); flex-grow: 1; width: 100%; height: 100%; }
+
+        /* Dropdown Styles */
+        .header-dropdown { position: absolute; top: calc(100% + 0.5rem); right: 0; z-index: 50; min-width: 280px; max-width: 400px; background-color: var(--dropdown-bg-color); border: 1px solid var(--dropdown-border-color); border-radius: 0.375rem; box-shadow: var(--dropdown-shadow); padding: 1rem; color: var(--text-color); opacity: 0; transform-origin: top right; transform: translateY(-10px) scale(0.95); transition: opacity 0.15s ease-out, transform 0.15s ease-out, visibility 0.15s ease-out; visibility: hidden; } .header-dropdown:not(.hidden-animated) { opacity: 1; transform: translateY(0) scale(1); visibility: visible; } #theme-menu { min-width: 150px; padding: 0.5rem 0; }
+
+        /* Theme Menu Item Styles */
+        .theme-menu-item { display: block; width: 100%; padding: 0.5rem 1rem; text-align: left; font-size: 0.875rem; color: var(--text-color); cursor: pointer; transition: background-color 0.1s ease, color 0.1s ease; background-color: transparent; border: none; }
+        .theme-menu-item:hover { background-color: var(--button-secondary-bg-color); color: var(--button-secondary-text-color); }
+        .theme-menu-item.active { background-color: var(--primary-color); color: var(--primary-text-color); }
+        [data-theme="dark"] .theme-menu-item { color: #cccccc; }
+        [data-theme="dark"] .theme-menu-item:hover { color: #ffffff; background-color: var(--button-secondary-bg-color); }
+        [data-theme="dark"] .theme-menu-item.active { color: var(--primary-text-color); background-color: var(--primary-color); }
+
+        /* Color Picker Styles */
+        .color-swatch { display: inline-block; width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--swatch-border-color); cursor: pointer; margin-right: 8px; vertical-align: middle; transition: transform 0.1s ease-out; } .color-swatch:hover { transform: scale(1.1); } .color-value-display { font-family: monospace; font-size: 0.875rem; padding: 0.25rem 0.5rem; background-color: var(--editor-bg-color); border-radius: 4px; margin-top: 0.5rem; border: 1px solid var(--border-color); } .native-color-picker { width: 40px; height: 24px; padding: 0; border: 1px solid var(--input-border-color); border-radius: 4px; cursor: pointer; vertical-align: middle; background-color: var(--input-bg-color); } .insert-color-button { padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-left: 0.5rem; background-color: var(--button-secondary-bg-color); color: var(--button-secondary-text-color); border-radius: 4px; border: 1px solid transparent; transition: background-color 0.15s ease, transform 0.15s ease; cursor: pointer; } .insert-color-button:hover { background-color: color-mix(in srgb, var(--button-secondary-bg-color) 85%, black); transform: scale(1.05); }
+
+        /* App Title/Icon Styles */
+        #app-title-editable { outline: none; border: 1px solid transparent; padding: 0 4px; border-radius: 4px; transition: border-color 0.2s ease; min-width: 50px; /* Prevent collapse */ display: inline-block; /* Ensure it takes space */ } #app-title-editable:focus { border-color: var(--primary-color); background-color: color-mix(in srgb, var(--bg-color) 95%, white); }
+        #app-icon { /* Styles moved to HTML tag for consistency */ }
+
+        /* Resizer Styles */
+        #vertical-resizer { flex-shrink: 0; width: 8px; background-color: var(--resizer-color); cursor: col-resize; transition: background-color 0.2s ease; z-index: 1; } #vertical-resizer:hover { background-color: var(--resizer-hover-color); }
+
+        /* Autosave Indicator Styles */
+        #autosave-indicator { position: fixed; bottom: 10px; right: 10px; padding: 5px 10px; background-color: var(--autosave-indicator-color); color: white; border-radius: 5px; font-size: 12px; opacity: 0; transition: opacity 0.5s ease-in-out; z-index: 100; pointer-events: none; } #autosave-indicator.visible { opacity: 1; }
+
+        /* Utility Styles */
+        .hidden { display: none !important; }
+        .hidden-animated { opacity: 0; transform: translateY(-10px) scale(0.95); visibility: hidden; pointer-events: none; /* Prevent interaction when hidden */ }
+        header button, header label.cursor-pointer { transition: transform 0.15s ease-out, background-color 0.15s ease-out, border-color 0.15s ease-out; } header button:hover, header label.cursor-pointer:hover { transform: scale(1.03); }
+
+        /* Icon Styling */
+        .lucide-icon { width: 1em; height: 1em; stroke-width: var(--icon-stroke-width); vertical-align: middle; /* Align icons with text */ }
+        .img-icon { /* Style for icons used via <img> tag */ width: 1em; height: 1em; vertical-align: middle; display: inline-block; }
+
+        /* Specific Save Icon Colors */
+        #saveHtmlButton svg { stroke: var(--save-html-icon-color); }
+        #saveCssButton svg { stroke: var(--save-css-icon-color); }
+        #saveJsButton svg { stroke: var(--save-js-icon-color); }
+
+        /* Header Button Consistency */
+        .header-button {
+            padding-left: 0.75rem; /* px-3 */ padding-right: 0.75rem; /* px-3 */
+            padding-top: 0.375rem; /* py-1.5 */ padding-bottom: 0.375rem; /* py-1.5 */
+            display: inline-flex; align-items: center; gap: 0.375rem; /* gap-1.5 */
+            font-size: 0.875rem; /* text-sm */ font-weight: 500; /* font-medium */
+            border-radius: 0.375rem; /* rounded-md */
+            height: 36px; /* Match common height */
+            box-sizing: border-box;
+            white-space: nowrap; /* Prevent text wrapping */
+            border: 1px solid transparent; /* Base border */
+        }
+        .header-icon-button { /* For buttons that might just show an icon */
+            padding: 0.5rem; /* p-2 */
+            display: inline-flex; align-items: center; justify-content: center;
+            border-radius: 0.375rem; /* rounded-md */
+            width: 36px; height: 36px; /* Fixed size */
+            box-sizing: border-box;
+            border: 1px solid transparent; /* Base border */
+        }
+
+        /* Ensure icons in buttons use appropriate colors */
+        .header-button img.img-icon, .header-icon-button img.img-icon {
+             filter: invert(var(--theme-icon-invert, 0)); /* Basic way to adapt icons, adjust if needed */
+        }
+        [data-theme="dark"] { --theme-icon-invert: 1; }
+        [data-theme="white"] { --theme-icon-invert: 0; }
+        /* Style primary button icons correctly */
+        .bg-primary img.img-icon { filter: none; } /* Don't invert icons on primary buttons */
+        /* Style secondary button icons */
+        .bg-button-secondary img.img-icon {
+             /* Let secondary button icons adapt via filter or use specific SVGs if needed */
+        }
+         /* Ensure Lucide SVGs inherit color */
+        .header-button svg.lucide-icon, .header-icon-button svg.lucide-icon {
+            stroke: currentColor;
+        }
+
+
+    </style>
+</head>
+<body class="bg-app text-app h-screen flex flex-col">
+
+    <header class="p-4 border-b border-app shadow-sm flex items-center justify-between flex-wrap gap-2 md:gap-4 bg-header text-header relative flex-shrink-0">
+        <div class="flex items-center gap-3">
+            <label for="icon-upload" class="cursor-pointer" title="Change App Icon">
+                <img id="app-icon" src="https://placehold.co/40x40/e5e7eb/374151?text=Icon" alt="App Icon" class="w-8 h-8 rounded-full object-cover border border-[var(--border-color)] bg-[var(--button-secondary-bg-color)] hover:border-[var(--primary-color)] hover:scale-105 transition-transform">
+            </label>
+            <input type="file" id="icon-upload" accept="image/*" class="hidden">
+            <h1 id="app-title" class="text-xl font-semibold">
+                <span id="app-title-editable" contenteditable="true" title="Edit Title (Click to edit)">LumeWeb</span>
+            </h1>
+        </div>
+
+        <div class="flex items-center gap-1 sm:gap-2 flex-wrap">
+            <div class="flex items-center gap-0.5 border border-[var(--border-color)] rounded-md p-0.5" title="Save Files">
+                <button id="saveHtmlButton" title="Save HTML file (.html)" class="p-1.5 rounded hover:bg-[color-mix(in_srgb,var(--button-secondary-bg-color)_90%,black)] text-[var(--button-secondary-text-color)] flex items-center gap-1 text-xs sm:text-sm sm:px-2">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide-icon w-4 h-4 inline-block"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="m10 13-2 2 2 2"></path><path d="m14 17 2-2-2-2"></path></svg>
+                    <span class="hidden sm:inline">HTML</span>
+                </button>
+                <div class="w-px h-4 bg-[var(--border-color)] mx-0.5"></div>
+                <button id="saveCssButton" title="Save CSS file (.css)" class="p-1.5 rounded hover:bg-[color-mix(in_srgb,var(--button-secondary-bg-color)_90%,black)] text-[var(--button-secondary-text-color)] flex items-center gap-1 text-xs sm:text-sm sm:px-2">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide-icon w-4 h-4 inline-block"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M10.4 12.6a.9.9 0 0 1-1.4 0L8 11.8"/><path d="M10.4 17.4a.9.9 0 0 0 1.4 0l1-1"/><path d="m14 13 1 1"/><path d="M16 10h-2a2 2 0 0 0-2 2v0a2 2 0 0 0 2 2h2"/></svg> <span class="hidden sm:inline">CSS</span>
+                </button>
+                 <div class="w-px h-4 bg-[var(--border-color)] mx-0.5"></div>
+                <button id="saveJsButton" title="Save JavaScript file (.js)" class="p-1.5 rounded hover:bg-[color-mix(in_srgb,var(--button-secondary-bg-color)_90%,black)] text-[var(--button-secondary-text-color)] flex items-center gap-1 text-xs sm:text-sm sm:px-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide-icon w-4 h-4 inline-block"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M10 18h1"/><path d="M14 18h1"/><path d="M10 12h4v4h-4z"/></svg> <span class="hidden sm:inline">JS</span>
+                </button>
+                 <div class="w-px h-4 bg-[var(--border-color)] mx-0.5"></div>
+                 <button id="saveAllButton" title="Save all code as single HTML file" class="p-1.5 rounded bg-primary text-primary hover-bg-primary-dark flex items-center gap-1 text-xs sm:text-sm sm:px-2">
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/download.svg" alt="Download" class="img-icon w-4 h-4" />
+                    <span class="hidden sm:inline">All</span>
+                </button>
+            </div>
+
+            <label role="button" title="Load HTML file" class="header-button bg-primary text-primary hover-bg-primary-dark cursor-pointer">
+                <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/upload.svg" alt="Upload" class="img-icon w-4 h-4" />
+                <span class="hidden sm:inline">Load HTML</span>
+                <span class="sm:hidden">Load</span>
+                <input type="file" id="loadInput" accept=".html,text/html" class="hidden">
+            </label>
+
+            <div class="relative inline-block">
+                <button id="color-picker-toggle" title="Color Picker" aria-label="Color Picker" aria-haspopup="true" aria-expanded="false" aria-controls="color-picker-dropdown" class="header-icon-button bg-button-secondary text-button-secondary hover-bg-secondary-dark">
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/palette.svg" alt="Palette" class="img-icon w-5 h-5" />
+                </button>
+                <div id="color-picker-dropdown" class="header-dropdown hidden-animated">
+                    <h4 class="text-sm font-medium mb-2">Color Picker</h4>
+                    <div class="mb-3">
+                        <span class="text-xs block mb-1">Palette:</span>
+                        <span class="color-swatch" style="background-color: #FFFFFF;" data-color="#FFFFFF" title="#FFFFFF"></span>
+                        <span class="color-swatch" style="background-color: #000000;" data-color="#000000" title="#000000"></span>
+                        <span class="color-swatch" style="background-color: #FF0000;" data-color="#FF0000" title="#FF0000"></span>
+                        <span class="color-swatch" style="background-color: #00FF00;" data-color="#00FF00" title="#00FF00"></span>
+                        <span class="color-swatch" style="background-color: #0000FF;" data-color="#0000FF" title="#0000FF"></span>
+                        <span class="color-swatch" style="background-color: #FFFF00;" data-color="#FFFF00" title="#FFFF00"></span>
+                        <span class="color-swatch" style="background-color: #FF00FF;" data-color="#FF00FF" title="#FF00FF"></span>
+                        <span class="color-swatch" style="background-color: #00FFFF;" data-color="#00FFFF" title="#00FFFF"></span>
+                        <span class="color-swatch" style="background-color: #808080;" data-color="#808080" title="#808080"></span>
+                        <span class="color-swatch" style="background-color: #3B82F6;" data-color="#3B82F6" title="#3B82F6 (Blue-500)"></span>
+                        <span class="color-swatch" style="background-color: #10B981;" data-color="#10B981" title="#10B981 (Green-500)"></span>
+                        <span class="color-swatch" style="background-color: #F59E0B;" data-color="#F59E0B" title="#F59E0B (Amber-500)"></span>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-xs block mb-1">Custom:</span>
+                        <input type="color" id="native-color-input" class="native-color-picker" value="#ffffff" aria-label="Native Color Picker">
+                    </div>
+                    <div class="color-value-display">
+                        <div class="mb-1 flex justify-between items-center">
+                            <span>HEX: <code id="color-picker-hex">#FFFFFF</code></span>
+                            <button class="insert-color-button" data-format="hex" title="Insert HEX color">Insert</button>
+                        </div>
+                        <div>RGB: <code id="color-picker-rgb">rgb(255, 255, 255)</code></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative inline-block">
+                <button id="theme-toggle-button" aria-haspopup="true" aria-expanded="false" aria-controls="theme-menu" title="Change Theme" class="header-button bg-button-secondary text-button-secondary hover-bg-secondary-dark">
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/paintbrush.svg" alt="Theme" class="img-icon w-4 h-4" />
+                    <span id="current-theme-name">Theme</span>
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/chevron-down.svg" alt="Dropdown" class="img-icon w-4 h-4" />
+                </button>
+                <div id="theme-menu" role="menu" class="header-dropdown hidden-animated">
+                    <button role="menuitem" class="theme-menu-item" data-theme="dark">Dark</button>
+                    <button role="menuitem" class="theme-menu-item" data-theme="white">White</button>
+                </div>
+            </div>
+
+            </div>
+    </header>
+
+    <div id="main-content" class="flex flex-1 overflow-hidden">
+        <div id="editor-panel" class="flex flex-col p-4 bg-app w-1/2">
+            <div id="tab-buttons-container" role="tablist" class="flex border-b" style="border-color: var(--tab-border-color);">
+                <button id="tab-button-html" role="tab" aria-controls="html-editor-container" aria-selected="true" class="tab-button active" data-tab="html">HTML</button>
+                <button id="tab-button-css" role="tab" aria-controls="css-editor-container" aria-selected="false" class="tab-button" data-tab="css">CSS</button>
+                <button id="tab-button-js" role="tab" aria-controls="js-editor-container" aria-selected="false" class="tab-button" data-tab="js">JavaScript</button>
+            </div>
+            <div class="tab-content-container flex-1 overflow-hidden">
+                <div id="html-editor-container" role="tabpanel" aria-labelledby="tab-button-html" class="tab-content active">
+                    <textarea id="htmlCode" aria-label="HTML Code Editor"></textarea> </div>
+                <div id="css-editor-container" role="tabpanel" aria-labelledby="tab-button-css" class="tab-content">
+                    <textarea id="cssCode" aria-label="CSS Code Editor">/* Default CSS - Add your styles here */
+body {
+    padding: 1rem; /* Example padding */
+}</textarea>
+                </div>
+                <div id="js-editor-container" role="tabpanel" aria-labelledby="tab-button-js" class="tab-content">
+                    <textarea id="jsCode" aria-label="JavaScript Code Editor">// Default JavaScript - Add your script here
+console.log("LumeWeb script loaded!");</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div id="vertical-resizer" title="Resize Panels" class="flex-shrink-0"></div>
+
+        <div id="preview-panel" class="flex flex-col p-4 bg-app w-1/2 overflow-hidden">
+            <h2 class="text-lg font-semibold mb-2 text-app flex-shrink-0">Preview</h2>
+            <iframe id="preview" title="Code Preview" class="flex-1 rounded-lg w-full h-full border-app"></iframe>
+        </div>
+    </div>
+
+    <div id="autosave-indicator" role="status" aria-live="polite">Saved</div>
+
+    <script>
+        /*
+         * Copyright 2025 LumeWeb Project Contributors (Placeholder)
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         * http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         *
+         * ---
+         * Note: This project incorporates components under other compatible licenses:
+         * - CodeMirror: MIT License (https://codemirror.net/5/LICENSE)
+         * - Tailwind CSS: MIT License (https://github.com/tailwindlabs/tailwindcss/blob/master/LICENSE)
+         * - Lucide Icons: ISC License (https://github.com/lucide-icons/lucide/blob/main/LICENSE)
+         * - Inter Font: SIL OFL 1.1 (https://fonts.google.com/specimen/Inter/about)
+         * Please ensure you comply with the terms of all included licenses.
+         */
+
+        // --- IIFE Wrapper ---
+        (function() {
+            'use strict';
+            // Author: LumeWeb Team (Example)
+
+            // --- Constants ---
+            const AUTOSAVE_INTERVAL = 60000; // ms (1 minute)
+            const DEBOUNCE_DELAY = 300;      // ms (delay for preview update)
+            const REFRESH_DELAY = 50;        // ms (delay for CodeMirror refresh)
+            const LS_PREFIX = 'lumeweb_v3_'; // Prefix for all localStorage keys (using v3 from previous example)
+            const LS_KEY_APP_TITLE = LS_PREFIX + 'appTitle';
+            const LS_KEY_APP_ICON = LS_PREFIX + 'appIcon';
+            const LS_KEY_PANEL_WIDTH = LS_PREFIX + 'panelWidthPercent';
+            const LS_KEY_THEME = LS_PREFIX + 'theme';
+            const LS_KEY_AUTOSAVE_HTML = LS_PREFIX + 'autosave_html';
+            const LS_KEY_AUTOSAVE_CSS = LS_PREFIX + 'autosave_css';
+            const LS_KEY_AUTOSAVE_JS = LS_PREFIX + 'autosave_js';
+            const LS_KEY_AUTOSAVE_TS = LS_PREFIX + 'autosave_timestamp';
+            const DEFAULT_THEME = 'white';
+            const MIN_PANEL_WIDTH = 100; // px
+            const MAX_ICON_SIZE = 1 * 1024 * 1024; // 1MB limit for icon upload
+
+            // --- Global (within IIFE) variables ---
+            const editors = { html: null, css: null, js: null }; // Holds CodeMirror instances
+            let autosaveTimerId = null; // For hiding the indicator
+            let autosaveIntervalId = null; // For the periodic save
+            let activeColorPickerValue = { hex: '#FFFFFF', rgb: 'rgb(255, 255, 255)' };
+            let resizeState = { isResizingVertical: false, startX: 0, initialEditorWidth: 0, initialPreviewWidth: 0 };
+
+            // --- DOM Element References ---
+            // Declare variables, will be assigned in cacheDOMElements
+            let previewFrame, bodyElement, themeToggleButton, themeMenu, currentThemeNameSpan,
+                appTitleEditable, appIcon, iconUploadInput, editorPanel, previewPanel,
+                verticalResizer, mainContent, autosaveIndicator, loadInput, tabButtonsContainer,
+                colorPickerToggle, colorPickerDropdown, nativeColorInput, colorPickerHex,
+                colorPickerRgb, saveHtmlButton, saveCssButton, saveJsButton, saveAllButton;
+                // Removed FAQ related variables: faqButton, faqModal, closeFaqModal, faqIconExample
+
+            // --- Utility Functions ---
+            /**
+             * Debounces a function call.
+             * @param {Function} func The function to debounce.
+             * @param {number} delay The debounce delay in milliseconds.
+             * @returns {Function} The debounced function.
+             */
+            function debounce(func, delay) {
+                let debounceTimer;
+                return function(...args) {
+                    const context = this;
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(() => func.apply(context, args), delay);
+                };
+            }
+
+            /**
+             * Converts a HEX color string to an RGB object.
+             * @param {string} hex The HEX color string (e.g., "#RRGGBB").
+             * @returns {{r: number, g: number, b: number} | null} RGB object or null if invalid.
+             */
+            function hexToRgb(hex) {
+                const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                return result ? {
+                    r: parseInt(result[1], 16),
+                    g: parseInt(result[2], 16),
+                    b: parseInt(result[3], 16)
+                } : null;
+            }
+
+            /**
+             * Safely interacts with localStorage.
+             * @param {'get' | 'set' | 'remove'} action The action to perform.
+             * @param {string} key The localStorage key.
+             * @param {string} [value] The value to set (only for 'set' action).
+             * @returns {string | null | undefined} The retrieved value for 'get', otherwise undefined.
+             */
+            function safeLocalStorage(action, key, value) {
+                try {
+                    if (action === 'set') {
+                        localStorage.setItem(key, value);
+                        return undefined;
+                    } else if (action === 'remove') {
+                        localStorage.removeItem(key);
+                        return undefined;
+                    } else if (action === 'get') {
+                        return localStorage.getItem(key);
+                    }
+                } catch (e) {
+                    console.error(`[LocalStorage] Error during ${action} operation for key "${key}":`, e);
+                }
+                return action === 'get' ? null : undefined;
+            }
+
+            // --- DOM Element Caching ---
+            /** Caches references to frequently used DOM elements. */
+            function cacheDOMElements() {
+                previewFrame = document.getElementById('preview');
+                bodyElement = document.body;
+                themeToggleButton = document.getElementById('theme-toggle-button');
+                themeMenu = document.getElementById('theme-menu');
+                currentThemeNameSpan = document.getElementById('current-theme-name');
+                appTitleEditable = document.getElementById('app-title-editable');
+                appIcon = document.getElementById('app-icon');
+                iconUploadInput = document.getElementById('icon-upload');
+                editorPanel = document.getElementById('editor-panel');
+                previewPanel = document.getElementById('preview-panel');
+                verticalResizer = document.getElementById('vertical-resizer');
+                mainContent = document.getElementById('main-content');
+                autosaveIndicator = document.getElementById('autosave-indicator');
+                loadInput = document.getElementById('loadInput');
+                tabButtonsContainer = document.getElementById('tab-buttons-container');
+                colorPickerToggle = document.getElementById('color-picker-toggle');
+                colorPickerDropdown = document.getElementById('color-picker-dropdown');
+                nativeColorInput = document.getElementById('native-color-input');
+                colorPickerHex = document.getElementById('color-picker-hex');
+                colorPickerRgb = document.getElementById('color-picker-rgb');
+                saveHtmlButton = document.getElementById('saveHtmlButton');
+                saveCssButton = document.getElementById('saveCssButton');
+                saveJsButton = document.getElementById('saveJsButton');
+                saveAllButton = document.getElementById('saveAllButton');
+                // Removed FAQ elements from caching
+
+                console.log("[Cache DOM] Caching complete.");
+                // Basic check for critical elements (excluding removed FAQ)
+                const criticalElements = { previewFrame, bodyElement, themeToggleButton, themeMenu, appTitleEditable, appIcon, editorPanel, previewPanel, verticalResizer, mainContent, loadInput, tabButtonsContainer, colorPickerToggle, colorPickerDropdown };
+                for (const key in criticalElements) {
+                    if (!criticalElements[key]) {
+                        console.error(`[Cache DOM] Critical element not found: ${key}`);
+                    }
+                }
+            }
+
+            // --- CodeMirror Setup ---
+            const baseEditorOptions = {
+                lineNumbers: true,
+                indentUnit: 4,
+                tabSize: 4,
+                lineWrapping: true,
+                autoCloseTags: true,
+                autoCloseBrackets: true,
+                extraKeys: {
+                    "Ctrl-Space": "autocomplete",
+                    "Cmd-F": "findPersistent", "Ctrl-F": "findPersistent",
+                    "Cmd-Alt-F": "replace", "Ctrl-H": "replace",
+                    "Cmd-G": "findNext", "Ctrl-G": "findNext",
+                    "Shift-Cmd-G": "findPrev", "Shift-Ctrl-G": "findPrev"
+                },
+                hintOptions: { completeSingle: false },
+                search: { bottom: true },
+                highlightSelectionMatches: { showToken: /\w/, annotateScrollbar: true }
+            };
+
+            /**
+             * Initializes a CodeMirror editor instance for a given language.
+             * @param {'html' | 'css' | 'js'} lang The language key.
+             * @param {string} cmTheme The CodeMirror theme name to apply.
+             */
+            function initializeEditor(lang, cmTheme) {
+                if (editors[lang]) {
+                    console.warn(`[Init Editor] Editor for ${lang} already initialized.`);
+                    editors[lang].setOption("theme", cmTheme); // Ensure theme is updated if re-called
+                    editors[lang].refresh();
+                    return;
+                }
+
+                const textArea = document.getElementById(lang + 'Code');
+                if (!textArea) {
+                    console.error(`[Init Editor] Textarea element not found for ${lang}Code`);
+                    return;
+                }
+
+                const modeMap = { html: 'htmlmixed', css: 'css', js: 'javascript' };
+                let hinter = null;
+                if (lang === 'html' && typeof CodeMirror?.hint?.html === 'function') hinter = CodeMirror.hint.html;
+                else if (lang === 'css' && typeof CodeMirror?.hint?.css === 'function') hinter = CodeMirror.hint.css;
+                else if (lang === 'js' && typeof CodeMirror?.hint?.javascript === 'function') hinter = CodeMirror.hint.javascript;
+
+                if (!hinter && lang !== 'html') {
+                     console.warn(`[Init Editor] CodeMirror hinter function not found for ${lang}. Autocomplete might be limited.`);
+                }
+
+                const editorOptions = {
+                    ...baseEditorOptions,
+                    mode: modeMap[lang],
+                    theme: cmTheme,
+                    hintOptions: { ...baseEditorOptions.hintOptions, hint: hinter }
+                };
+
+                try {
+                    console.log(`[Init Editor] Initializing ${lang.toUpperCase()} editor with options:`, editorOptions);
+                    const newEditor = CodeMirror.fromTextArea(textArea, editorOptions);
+                    newEditor.on('change', debouncedUpdatePreview);
+                    editors[lang] = newEditor;
+                    console.log(`[Init Editor] ${lang.toUpperCase()} editor initialized successfully.`);
+
+                    setTimeout(() => {
+                        if (editors[lang]) {
+                            try {
+                                editors[lang].refresh();
+                                if (textArea.value && textArea.value !== editors[lang].getValue()) {
+                                     editors[lang].setValue(textArea.value);
+                                }
+                                console.log(`[Init Editor] ${lang.toUpperCase()} editor refreshed.`);
+                            } catch (refreshError) {
+                                console.error(`[Init Editor] Error refreshing ${lang} editor:`, refreshError);
+                            }
+                        }
+                    }, REFRESH_DELAY);
+                } catch (e) {
+                    console.error(`[Init Editor] Failed to initialize ${lang.toUpperCase()} editor:`, e);
+                    // Attempt to display error to user
+                    textArea.value = `Error initializing ${lang.toUpperCase()} editor. Check console (F12) for details.\n${e.message}`;
+                    textArea.style.color = 'red';
+                    textArea.style.backgroundColor = '#fee';
+                }
+            }
+
+            // --- Preview Update ---
+            /** Updates the content of the preview iframe. */
+            function updatePreview() {
+                if (!previewFrame) {
+                    console.error("[Preview] Preview iframe element not found!");
+                    return;
+                }
+                try {
+                    // Get code, falling back to textarea value if editor isn't ready
+                    const htmlCode = editors.html?.getValue() ?? document.getElementById('htmlCode')?.value ?? '';
+                    const cssCode = editors.css?.getValue() ?? document.getElementById('cssCode')?.value ?? '';
+                    const jsCode = editors.js?.getValue() ?? document.getElementById('jsCode')?.value ?? '';
+
+                    const currentBgColor = getComputedStyle(bodyElement).getPropertyValue('--editor-bg-color').trim();
+                    const currentTextColor = getComputedStyle(bodyElement).getPropertyValue('--text-color').trim();
+
+                    const source = `
+                        <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style> body { font-family: sans-serif; background-color: ${currentBgColor}; color: ${currentTextColor}; margin: 0; padding: 8px; box-sizing: border-box; min-height: calc(100vh - 16px); } ${cssCode} </style>
+                        </head><body>${htmlCode}
+                        <script>
+                        window.onerror = function(message, source, lineno, colno, error) { console.error("[Preview JS Error]", message, "at", source + ":" + lineno + ":" + colno, error); let errorDiv = document.getElementById('preview-error-div'); if (!errorDiv) { errorDiv = document.createElement('div'); errorDiv.id = 'preview-error-div'; errorDiv.style.cssText = 'position:fixed; bottom:10px; left:10px; padding:8px 12px; background-color:rgba(220, 38, 38, 0.9); color:white; border:1px solid rgba(153, 27, 27, 0.8); border-radius:5px; font-family:monospace; font-size:13px; z-index:9999; max-width: calc(100% - 20px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3);'; errorDiv.title = "Click to dismiss. Error details in parent console."; errorDiv.onclick = () => errorDiv.remove(); document.body.appendChild(errorDiv); } errorDiv.textContent = 'JS Error: ' + message; return true; };
+                        try { ${jsCode} } catch (error) { window.onerror(error.message, 'inline script', 0, 0, error); }
+                        <\/script></body></html>`;
+
+                    previewFrame.srcdoc = source;
+
+                } catch (e) {
+                    console.error("[Preview] Error updating preview:", e);
+                    previewFrame.srcdoc = `<html><body style="color: red; font-family: sans-serif;">Preview Error: ${e.message}</body></html>`;
+                }
+            }
+            const debouncedUpdatePreview = debounce(updatePreview, DEBOUNCE_DELAY);
+
+            // --- File Download Helper ---
+            /** Triggers a file download in the browser. */
+            function triggerDownload(content, filename, mimeType) {
+                if (content === null || content === undefined || typeof content !== 'string') {
+                    alert(`Cannot save file "${filename}": No content provided.`);
+                    console.warn(`[Download] Attempted to save "${filename}" but content was null or undefined.`);
+                    return;
+                }
+                 if (content.trim() === "") {
+                    if (!confirm(`The content for "${filename}" is empty. Do you still want to save an empty file?`)) {
+                         return;
+                    }
+                 }
+                try {
+                    const blob = new Blob([content], { type: mimeType });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    console.log(`[Download] Triggered download for "${filename}".`);
+                } catch (e) {
+                    console.error("[Download] Error triggering download:", e);
+                    alert(`An error occurred while trying to download "${filename}". Please check the console.`);
+                }
+            }
+
+            // --- Autosave Functionality ---
+            /** Saves the current code from all editors to localStorage. */
+            function autoSaveCode() {
+                let savedSomething = false;
+                try {
+                    const htmlValue = editors.html?.getValue();
+                    const cssValue = editors.css?.getValue();
+                    const jsValue = editors.js?.getValue();
+
+                    if (editors.html && htmlValue !== undefined) { safeLocalStorage('set', LS_KEY_AUTOSAVE_HTML, htmlValue); savedSomething = true; }
+                    if (editors.css && cssValue !== undefined) { safeLocalStorage('set', LS_KEY_AUTOSAVE_CSS, cssValue); savedSomething = true; }
+                    if (editors.js && jsValue !== undefined) { safeLocalStorage('set', LS_KEY_AUTOSAVE_JS, jsValue); savedSomething = true; }
+
+                    if (savedSomething) {
+                        safeLocalStorage('set', LS_KEY_AUTOSAVE_TS, Date.now().toString());
+                        console.log("[Autosave] Code saved to localStorage.");
+                        if (autosaveIndicator) {
+                            autosaveIndicator.classList.add('visible');
+                            clearTimeout(autosaveTimerId);
+                            autosaveTimerId = setTimeout(() => {
+                                autosaveIndicator?.classList.remove('visible');
+                            }, 1500);
+                        }
+                    }
+                } catch (e) {
+                    console.error("[Autosave] Error during autosave execution:", e);
+                    if (autosaveIntervalId) {
+                        clearInterval(autosaveIntervalId);
+                        autosaveIntervalId = null;
+                        console.warn("[Autosave] Autosave interval stopped due to error.");
+                        alert("Autosave error occurred! Check developer console. Autosave has been disabled.");
+                    }
+                }
+            }
+
+            /** Clears all autosaved code from localStorage. */
+            function clearAutoSave() {
+                safeLocalStorage('remove', LS_KEY_AUTOSAVE_HTML);
+                safeLocalStorage('remove', LS_KEY_AUTOSAVE_CSS);
+                safeLocalStorage('remove', LS_KEY_AUTOSAVE_JS);
+                safeLocalStorage('remove', LS_KEY_AUTOSAVE_TS);
+                console.log("[Autosave] Cleared autosave data from localStorage.");
+            }
+
+            /** Checks for and offers to restore autosaved code on load. */
+            function restoreAutoSave() {
+                let restored = false;
+                try {
+                    const autoSavedHtml = safeLocalStorage('get', LS_KEY_AUTOSAVE_HTML);
+                    const autoSavedCss = safeLocalStorage('get', LS_KEY_AUTOSAVE_CSS);
+                    const autoSavedJs = safeLocalStorage('get', LS_KEY_AUTOSAVE_JS);
+                    const autoSaveTimestamp = safeLocalStorage('get', LS_KEY_AUTOSAVE_TS);
+
+                    if (autoSavedHtml !== null || autoSavedCss !== null || autoSavedJs !== null) {
+                        const savedDate = autoSaveTimestamp ? new Date(parseInt(autoSaveTimestamp)).toLocaleString() : 'an unknown time';
+                        if (confirm(`Found auto-saved code from ${savedDate}.\nDo you want to restore it?`)) {
+                            // Set textarea values directly. initializeEditor will pick them up.
+                            const htmlTextArea = document.getElementById('htmlCode');
+                            if(htmlTextArea && autoSavedHtml !== null) htmlTextArea.value = autoSavedHtml;
+
+                            const cssTextArea = document.getElementById('cssCode');
+                            if (cssTextArea && autoSavedCss !== null) cssTextArea.value = autoSavedCss;
+
+                            const jsTextArea = document.getElementById('jsCode');
+                            if (jsTextArea && autoSavedJs !== null) jsTextArea.value = autoSavedJs;
+
+                            console.log("[Autosave] Prepared autosaved code for restoration.");
+                            restored = true; // Mark as restored so default content isn't set
+                        } else {
+                            clearAutoSave();
+                            console.log("[Autosave] User declined restoration. Autosave data cleared.");
+                        }
+                    }
+                } catch (e) {
+                    console.error("[Autosave] Error reading or restoring autosave data:", e);
+                }
+                return restored;
+            }
+
+
+            // --- Tab Switching ---
+            /** Switches the active editor tab. */
+            function switchTab(targetTabKey) {
+                console.log(`[Tabs] Attempting to switch to tab: ${targetTabKey}`);
+                try {
+                    const tabButtons = document.querySelectorAll('#tab-buttons-container .tab-button');
+                    const tabContents = document.querySelectorAll('.tab-content-container .tab-content');
+
+                    if (!tabButtons.length || !tabContents.length) {
+                        console.error("[Tabs] Tab buttons or content areas not found!");
+                        return;
+                    }
+
+                    tabButtons.forEach(button => {
+                        button.classList.remove('active');
+                        button.setAttribute('aria-selected', 'false');
+                    });
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+
+                    const activeButton = document.getElementById(`tab-button-${targetTabKey}`);
+                    const activeContent = document.getElementById(`${targetTabKey}-editor-container`);
+
+                    if (activeButton) {
+                        activeButton.classList.add('active');
+                        activeButton.setAttribute('aria-selected', 'true');
+                    } else {
+                        console.error(`[Tabs] Button not found: tab-button-${targetTabKey}`);
+                        return;
+                    }
+
+                    if (activeContent) {
+                        activeContent.classList.add('active');
+                    } else {
+                        console.error(`[Tabs] Content container not found: ${targetTabKey}-editor-container`);
+                        activeButton.classList.remove('active');
+                        activeButton.setAttribute('aria-selected', 'false');
+                        return;
+                    }
+
+                    // Initialize or refresh editor
+                    if (!editors[targetTabKey]) {
+                        const currentThemeKey = safeLocalStorage('get', LS_KEY_THEME) || DEFAULT_THEME;
+                        const cmTheme = themes[currentThemeKey]?.cmTheme || themes[DEFAULT_THEME].cmTheme;
+                        console.log(`[Tabs] Initializing editor for ${targetTabKey} with theme ${cmTheme}...`);
+                        initializeEditor(targetTabKey, cmTheme); // Initialize if not already done
+                    } else {
+                        console.log(`[Tabs] Refreshing existing editor: ${targetTabKey}`);
+                        setTimeout(() => { // Use timeout to ensure DOM is ready
+                            if (editors[targetTabKey]) {
+                                try {
+                                    editors[targetTabKey].refresh();
+                                    editors[targetTabKey].focus();
+                                } catch (refreshError) {
+                                    console.error(`[Tabs] Error refreshing existing ${targetTabKey} editor:`, refreshError);
+                                }
+                            }
+                        }, REFRESH_DELAY);
+                    }
+                     console.log(`[Tabs] Switched to ${targetTabKey} tab.`);
+
+                } catch (e) {
+                    console.error("[Tabs] Error switching tab:", e);
+                }
+            }
+
+            // --- Theming ---
+            const themes = {
+                "dark": { name: "Dark", cmTheme: "material-darker" },
+                "white": { name: "White", cmTheme: "neat" }
+            };
+
+            /** Applies the selected theme. */
+            function applyTheme(themeKey) {
+                console.log(`[Theme] Applying theme: ${themeKey}`);
+                try {
+                    if (!themes[themeKey]) {
+                        console.warn(`[Theme] Invalid theme key "${themeKey}". Reverting to default: ${DEFAULT_THEME}`);
+                        themeKey = DEFAULT_THEME;
+                    }
+                    const themeConfig = themes[themeKey];
+                    bodyElement.dataset.theme = themeKey;
+                    const cmTheme = themeConfig.cmTheme;
+                    baseEditorOptions.theme = cmTheme; // Update base for future inits
+
+                    for (const key in editors) {
+                        if (editors[key]) {
+                            try { editors[key].setOption("theme", cmTheme); }
+                            catch (e) { console.error(`[Theme] Error applying theme ${cmTheme} to editor ${key}:`, e); }
+                        }
+                    }
+
+                    if (currentThemeNameSpan) currentThemeNameSpan.textContent = themeConfig.name;
+                    document.querySelectorAll('#theme-menu .theme-menu-item').forEach(item => {
+                        item.classList.toggle('active', item.dataset.theme === themeKey);
+                    });
+                    safeLocalStorage('set', LS_KEY_THEME, themeKey);
+                    updatePreview(); // Update preview colors
+
+                    setTimeout(() => {
+                        console.log("[Theme] Refreshing editors after theme change...");
+                        for (const key in editors) {
+                            if (editors[key]) {
+                                try { editors[key].refresh(); }
+                                catch(e) { console.error(`[Theme] Error refreshing editor ${key} after theme change:`, e); }
+                            }
+                        }
+                    }, REFRESH_DELAY);
+                    console.log(`[Theme] Theme "${themeKey}" applied successfully.`);
+                } catch(error) { console.error("[Theme] Critical error in applyTheme:", error); }
+            }
+
+            // --- Panel Resizing ---
+            /** Mouse move handler for vertical resizing. */
+            function handleVerticalMouseMove(e) {
+                if (!resizeState.isResizingVertical) return;
+                try {
+                    const dx = e.clientX - resizeState.startX;
+                    let newEditorWidth = resizeState.initialEditorWidth + dx;
+                    let newPreviewWidth = resizeState.initialPreviewWidth - dx;
+                    const totalWidth = mainContent.offsetWidth - (verticalResizer?.offsetWidth || 0);
+
+                    if (newEditorWidth < MIN_PANEL_WIDTH) { newEditorWidth = MIN_PANEL_WIDTH; newPreviewWidth = totalWidth - newEditorWidth; }
+                    if (newPreviewWidth < MIN_PANEL_WIDTH) { newPreviewWidth = MIN_PANEL_WIDTH; newEditorWidth = totalWidth - newPreviewWidth; }
+
+                    if (totalWidth > 0 && editorPanel && previewPanel) {
+                        const editorWidthPercent = (newEditorWidth / totalWidth) * 100;
+                        const previewWidthPercent = (newPreviewWidth / totalWidth) * 100;
+                        editorPanel.style.width = `${editorWidthPercent}%`;
+                        previewPanel.style.width = `${previewWidthPercent}%`;
+                        const activeTabKey = document.querySelector('.tab-button.active')?.dataset.tab;
+                        if (activeTabKey && editors[activeTabKey]) {
+                             try { editors[activeTabKey].refresh(); } catch (refreshError) { /* Ignore */ }
+                        }
+                    }
+                } catch (e) { console.error("[Resize] Error during vertical mouse move:", e); handleVerticalMouseUp(); }
+            }
+            /** Mouse up handler for vertical resizing. */
+            function handleVerticalMouseUp() {
+                if (resizeState.isResizingVertical) {
+                    try {
+                        resizeState.isResizingVertical = false;
+                        document.body.style.cursor = 'default';
+                        document.body.style.userSelect = 'auto';
+                        document.removeEventListener('mousemove', handleVerticalMouseMove);
+                        document.removeEventListener('mouseup', handleVerticalMouseUp);
+                        const totalWidth = mainContent.offsetWidth - (verticalResizer?.offsetWidth || 0);
+                        if (totalWidth > 0 && editorPanel) {
+                            const editorWidthPercent = (editorPanel.offsetWidth / totalWidth) * 100;
+                            safeLocalStorage('set', LS_KEY_PANEL_WIDTH, editorWidthPercent.toString());
+                            console.log(`[Resize] Panel width saved: ${editorWidthPercent.toFixed(2)}%`);
+                        }
+                        Object.values(editors).forEach(editor => editor?.refresh());
+                    } catch (e) { console.error("[Resize] Error during vertical mouse up:", e); }
+                }
+            }
+
+            // --- Color Picker ---
+            /** Updates the color picker display. */
+            function updateColorPickerDisplay(hexColor) {
+                try {
+                    const rgbColor = hexToRgb(hexColor);
+                    const hexUpper = hexColor.toUpperCase();
+                    if (colorPickerHex) colorPickerHex.textContent = hexUpper;
+                    if (colorPickerRgb && rgbColor) {
+                        const rgbString = `rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b})`;
+                        colorPickerRgb.textContent = rgbString;
+                        activeColorPickerValue = { hex: hexUpper, rgb: rgbString };
+                    } else if (colorPickerRgb) {
+                        colorPickerRgb.textContent = 'N/A';
+                        activeColorPickerValue = { hex: hexUpper, rgb: null };
+                    }
+                    if (nativeColorInput && nativeColorInput.value !== hexColor) { nativeColorInput.value = hexColor; }
+                } catch (e) { console.error("[ColorPicker] Error updating display:", e); }
+            }
+            /** Inserts the selected color into the active editor. */
+            function insertColorIntoEditor() {
+                 const colorString = activeColorPickerValue.hex;
+                 const activeTabKey = document.querySelector('.tab-button.active')?.dataset.tab;
+                 const activeEditor = activeTabKey ? editors[activeTabKey] : null;
+                 if (activeEditor) {
+                     activeEditor.replaceSelection(colorString);
+                     activeEditor.focus();
+                     closeAllDropdowns();
+                     console.log(`[ColorPicker] Inserted color "${colorString}" into ${activeTabKey} editor.`);
+                 } else { alert("Please select an editor tab (HTML, CSS, or JS) first to insert the color."); }
+            }
+
+            // --- Dropdown Management ---
+            /** Closes all header dropdowns. */
+            function closeAllDropdowns(exceptElement = null) {
+                const dropdowns = [themeMenu, colorPickerDropdown];
+                dropdowns.forEach(dropdown => {
+                    if (dropdown && !dropdown.classList.contains('hidden-animated') && dropdown !== exceptElement) {
+                        dropdown.classList.add('hidden-animated');
+                        if (dropdown === themeMenu && themeToggleButton) themeToggleButton.setAttribute('aria-expanded', 'false');
+                        if (dropdown === colorPickerDropdown && colorPickerToggle) colorPickerToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            }
+
+            // --- Event Listeners Setup ---
+            /** Sets up all necessary event listeners. */
+            function setupEventListeners() {
+                console.log("[Events] Setting up event listeners...");
+                try {
+                    // Theme Menu
+                    if (themeToggleButton && themeMenu) {
+                        themeToggleButton.addEventListener('click', (event) => {
+                            event.stopPropagation();
+                            const isHidden = themeMenu.classList.contains('hidden-animated');
+                            closeAllDropdowns(themeMenu);
+                            themeMenu.classList.toggle('hidden-animated');
+                            themeToggleButton.setAttribute('aria-expanded', String(!isHidden));
+                        });
+                        themeMenu.addEventListener('click', (event) => {
+                             if (event.target.classList.contains('theme-menu-item')) {
+                                 const selectedTheme = event.target.dataset.theme;
+                                 if (selectedTheme) { applyTheme(selectedTheme); closeAllDropdowns(); }
+                             }
+                        });
+                    } else { console.error("[Events] Theme toggle button or menu missing."); }
+
+                    // Tab Switching
+                    if (tabButtonsContainer) {
+                        tabButtonsContainer.addEventListener('click', (event) => {
+                            const targetButton = event.target.closest('.tab-button[data-tab]');
+                            if (targetButton && !targetButton.classList.contains('active')) {
+                                switchTab(targetButton.dataset.tab);
+                            }
+                        });
+                    } else { console.error("[Events] Tab buttons container missing."); }
+
+                    // Save Buttons
+                    if (saveHtmlButton) saveHtmlButton.addEventListener('click', () => triggerDownload(editors.html?.getValue() ?? '', 'index.html', 'text/html'));
+                    else console.error("[Events] Save HTML button missing.");
+                    if (saveCssButton) saveCssButton.addEventListener('click', () => triggerDownload(editors.css?.getValue() ?? '', 'style.css', 'text/css'));
+                    else console.error("[Events] Save CSS button missing.");
+                    if (saveJsButton) saveJsButton.addEventListener('click', () => triggerDownload(editors.js?.getValue() ?? '', 'script.js', 'application/javascript'));
+                    else console.error("[Events] Save JS button missing.");
+                    if (saveAllButton) saveAllButton.addEventListener('click', () => {
+                        const htmlCode = editors.html?.getValue() ?? '';
+                        const cssCode = editors.css?.getValue() ?? '';
+                        const jsCode = editors.js?.getValue() ?? '';
+                        const title = appTitleEditable?.textContent?.trim() || 'LumeWeb Project';
+                        const fullHtml = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${title}</title><style>${cssCode}</style></head><body>${htmlCode}<script>${jsCode}<\/script></body></html>`;
+                        triggerDownload(fullHtml, `${title.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'lumeweb_project'}.html`, 'text/html');
+                    });
+                    else console.error("[Events] Save All button missing.");
+
+                    // Load Button
+                    if (loadInput) {
+                        loadInput.addEventListener('change', (event) => {
+                            const file = event.target.files?.[0];
+                            if (!file) return;
+                            if (file.type === "text/html") {
+                                const reader = new FileReader();
+                                reader.onload = (e_reader) => {
+                                    try {
+                                        const content = e_reader.target?.result;
+                                        if (typeof content !== 'string') throw new Error("File content is not a string.");
+                                        const parser = new DOMParser(); const doc = parser.parseFromString(content, 'text/html');
+                                        const bodyContent = doc.body?.innerHTML || '';
+                                        const styleElements = Array.from(doc.querySelectorAll('style'));
+                                        const cssContent = styleElements.map(style => style.textContent ?? '').join('\n').trim();
+                                        const scriptElements = Array.from(doc.querySelectorAll('script:not([src])'));
+                                        const jsContent = scriptElements.map(script => script.textContent ?? '').join('\n').trim();
+                                        const titleContent = doc.title || file.name.replace('.html', '');
+
+                                        if (editors.html) editors.html.setValue(bodyContent); else document.getElementById('htmlCode').value = bodyContent;
+                                        const cssTextArea = document.getElementById('cssCode'); if (editors.css) editors.css.setValue(cssContent); else if (cssTextArea) cssTextArea.value = cssContent;
+                                        const jsTextArea = document.getElementById('jsCode'); if (editors.js) editors.js.setValue(jsContent); else if (jsTextArea) jsTextArea.value = jsContent;
+                                        if(appTitleEditable) appTitleEditable.textContent = titleContent; safeLocalStorage('set', LS_KEY_APP_TITLE, titleContent);
+
+                                        switchTab('html'); updatePreview(); clearAutoSave();
+                                        console.log(`[Events] File "${file.name}" loaded successfully.`); alert(`File "${file.name}" loaded.`);
+                                    } catch (parseError) { console.error("[Events] Error processing loaded file:", parseError); alert(`Error processing file "${file.name}": ${parseError.message}`); }
+                                    finally { event.target.value = null; }
+                                };
+                                reader.onerror = (e_reader) => { console.error("[Events] Error reading file:", e_reader); alert(`Could not read file "${file.name}".`); event.target.value = null; };
+                                reader.readAsText(file);
+                            } else { alert("Please select an HTML file (.html)."); event.target.value = null; }
+                        });
+                    } else { console.error("[Events] Load input missing."); }
+
+                    // Title Editing
+                    if (appTitleEditable) {
+                        appTitleEditable.addEventListener('blur', () => {
+                            const newTitle = appTitleEditable.textContent.trim(); const titleToSave = newTitle || 'LumeWeb';
+                            safeLocalStorage('set', LS_KEY_APP_TITLE, titleToSave); if (!newTitle) appTitleEditable.textContent = 'LumeWeb';
+                            console.log("[Events] App title saved:", titleToSave);
+                        });
+                        appTitleEditable.addEventListener('paste', (e) => { e.preventDefault(); const text = e.clipboardData?.getData('text/plain'); if(text) document.execCommand('insertText', false, text); });
+                        appTitleEditable.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); appTitleEditable.blur(); } });
+                    } else { console.error("[Events] App title editable span missing."); }
+
+                    // Icon Upload
+                    if (iconUploadInput && appIcon) {
+                        iconUploadInput.addEventListener('change', (event) => {
+                            const file = event.target.files?.[0]; if (!file) return;
+                            if (file.type.startsWith('image/')) {
+                                if (file.size > MAX_ICON_SIZE) { alert(`Image too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Max size is ${(MAX_ICON_SIZE / 1024 / 1024)}MB.`); event.target.value = null; return; }
+                                const reader = new FileReader();
+                                reader.onload = (e_reader) => {
+                                    try { const imageDataUrl = e_reader.target?.result; if (typeof imageDataUrl === 'string') { appIcon.src = imageDataUrl; safeLocalStorage('set', LS_KEY_APP_ICON, imageDataUrl); console.log("[Events] App icon updated and saved."); } else { throw new Error("Could not read image data."); } }
+                                    catch (loadError) { console.error("[Events] Error processing loaded icon:", loadError); alert(`Error processing icon: ${loadError.message}`); }
+                                    finally { event.target.value = null; }
+                                };
+                                reader.onerror = (e_reader) => { console.error("[Events] Error reading icon file:", e_reader); alert("Could not read image file."); event.target.value = null; };
+                                reader.readAsDataURL(file);
+                            } else { alert("Please select an image file (e.g., PNG, JPG, GIF, SVG)."); event.target.value = null; }
+                        });
+                    } else { console.error("[Events] Icon upload input or app icon img missing."); }
+
+                    // Color Picker
+                    if (colorPickerToggle && colorPickerDropdown) {
+                        colorPickerToggle.addEventListener('click', (event) => {
+                            event.stopPropagation(); const isHidden = colorPickerDropdown.classList.contains('hidden-animated');
+                            closeAllDropdowns(colorPickerDropdown); colorPickerDropdown.classList.toggle('hidden-animated');
+                            colorPickerToggle.setAttribute('aria-expanded', String(!isHidden));
+                        });
+                        colorPickerDropdown.addEventListener('click', (event) => {
+                            event.stopPropagation();
+                            if (event.target.classList.contains('color-swatch') && event.target.dataset.color) { updateColorPickerDisplay(event.target.dataset.color); }
+                            else if (event.target.classList.contains('insert-color-button')) { insertColorIntoEditor(); }
+                        });
+                    } else { console.error("[Events] Color picker toggle or dropdown missing."); }
+                    if (nativeColorInput) { nativeColorInput.addEventListener('input', (event) => { updateColorPickerDisplay(event.target.value); }); }
+                    else { console.error("[Events] Native color input missing."); }
+
+                    // Vertical Resizer
+                    if (verticalResizer) {
+                        verticalResizer.addEventListener('mousedown', (e) => {
+                            e.preventDefault(); resizeState.isResizingVertical = true; resizeState.startX = e.clientX;
+                            resizeState.initialEditorWidth = editorPanel.offsetWidth; resizeState.initialPreviewWidth = previewPanel.offsetWidth;
+                            document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none';
+                            document.addEventListener('mousemove', handleVerticalMouseMove); document.addEventListener('mouseup', handleVerticalMouseUp);
+                        });
+                    } else { console.error("[Events] Vertical resizer missing."); }
+
+                    // Global Click Listener (for closing dropdowns)
+                    document.addEventListener('click', (event) => {
+                        const isOutsideTheme = !themeToggleButton?.contains(event.target) && !themeMenu?.contains(event.target);
+                        const isOutsideColor = !colorPickerToggle?.contains(event.target) && !colorPickerDropdown?.contains(event.target);
+                        if (isOutsideTheme && isOutsideColor) {
+                            closeAllDropdowns();
+                        }
+                        // Removed FAQ modal closing logic
+                    });
+
+                    console.log("[Events] Event listeners set up successfully.");
+                } catch (e) {
+                    console.error("[Events] CRITICAL ERROR setting up event listeners:", e);
+                    alert("A critical error occurred while setting up the interface. Please check the console.");
+                }
+            } // End setupEventListeners
+
+            // --- Initial Load Sequence ---
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log("[Init] DOMContentLoaded event fired.");
+                cacheDOMElements();
+
+                try {
+                    // 1. Load Persistent UI State
+                    try { const savedTitle = safeLocalStorage('get', LS_KEY_APP_TITLE); if(appTitleEditable) appTitleEditable.textContent = savedTitle || 'LumeWeb'; } catch (e) { console.error("[Init] Error loading title:", e); if(appTitleEditable) appTitleEditable.textContent = 'LumeWeb'; }
+                    try { const savedIcon = safeLocalStorage('get', LS_KEY_APP_ICON); const defaultIconSrc = 'https://placehold.co/40x40/777/ccc?text=LW'; if (appIcon) { appIcon.src = savedIcon || defaultIconSrc; appIcon.onerror = () => { console.warn("[Init] Failed to load saved icon, reverting to default."); appIcon.src = defaultIconSrc; safeLocalStorage('remove', LS_KEY_APP_ICON); }; } } catch (e) { console.error("[Init] Error loading icon:", e); if(appIcon) appIcon.src = 'https://placehold.co/40x40/777/ccc?text=LW'; }
+                    try { const savedWidthPercent = safeLocalStorage('get', LS_KEY_PANEL_WIDTH); let initialEditorWidth = '50%'; let initialPreviewWidth = '50%'; if (savedWidthPercent && mainContent && verticalResizer) { const percent = parseFloat(savedWidthPercent); if (!isNaN(percent) && percent > 5 && percent < 95) { const totalWidth = mainContent.offsetWidth - verticalResizer.offsetWidth; const editorWidthPx = (percent / 100) * totalWidth; const previewWidthPx = totalWidth - editorWidthPx; if (totalWidth > 0 && editorWidthPx >= MIN_PANEL_WIDTH && previewWidthPx >= MIN_PANEL_WIDTH) { initialEditorWidth = `${percent}%`; initialPreviewWidth = `${100 - percent}%`; console.log(`[Init] Panel width loaded: ${percent.toFixed(2)}%`); } else { console.warn("[Init] Saved panel width resulted in too small panels, reverting to 50/50."); } } } if (editorPanel) editorPanel.style.width = initialEditorWidth; if (previewPanel) previewPanel.style.width = initialPreviewWidth; } catch (e) { console.error("[Init] Error loading/applying panel width:", e); if(editorPanel) editorPanel.style.width = '50%'; if(previewPanel) previewPanel.style.width = '50%'; }
+                    let initialThemeKey = DEFAULT_THEME; try { const savedTheme = safeLocalStorage('get', LS_KEY_THEME); if (savedTheme && themes[savedTheme]) initialThemeKey = savedTheme; } catch (e) { console.error("[Init] Error loading theme:", e); }
+
+                    // 2. Restore Autosaved Code (Set textarea values *before* editor init)
+                    const restoredFromAutosave = restoreAutoSave();
+
+                    // 3. Initialize HTML Editor (will pick up restored value if present)
+                    const initialCmTheme = themes[initialThemeKey]?.cmTheme || themes[DEFAULT_THEME].cmTheme;
+                    initializeEditor('html', initialCmTheme);
+
+                    // 4. Apply Initial Theme (affects editor theme and preview)
+                    applyTheme(initialThemeKey); // Calls updatePreview internally
+
+                    // 5. Set Default HTML Content if not restored
+                    if (!restoredFromAutosave && editors.html && !editors.html.getValue()) {
+                         const defaultHtml = `<h1>Hello World!</h1>\n<p>This is the LumeWeb editor.</p>\n<button onclick="alert('Hi from LumeWeb!')">Click Me!</button>`;
+                         editors.html.setValue(defaultHtml);
+                         console.log("[Init] Set default HTML content.");
+                         debouncedUpdatePreview(); // Update preview if default was set
+                    }
+
+                    // 6. Initialize Color Picker Display
+                    if(nativeColorInput) { try { updateColorPickerDisplay(nativeColorInput.value); } catch(e) { console.error("[Init] Error initializing color picker display:", e); } }
+
+                    // 7. Start Autosave Interval
+                    try { if (autosaveIntervalId) clearInterval(autosaveIntervalId); autosaveIntervalId = setInterval(autoSaveCode, AUTOSAVE_INTERVAL); console.log("[Init] Autosave interval started."); } catch (e) { console.error("[Init] Error starting autosave interval:", e); }
+
+                    // 8. Setup Event Listeners
+                    setupEventListeners();
+
+                    // 9. Final check/refresh for the initial active tab's editor
+                    setTimeout(() => {
+                         if(editors.html) editors.html.refresh();
+                    }, REFRESH_DELAY * 2); // Slightly longer delay for final refresh
+
+                    console.log("[Init] Editor initialized successfully.");
+
+                } catch (e) {
+                    console.error("[Init] CRITICAL ERROR during DOMContentLoaded initialization:", e);
+                    alert("A critical error occurred during editor initialization. The application might not work correctly. Please check the developer console (F12).");
+                     bodyElement.innerHTML = `<div style="padding: 20px; text-align: center; color: red; font-family: sans-serif;"><h2>Initialization Error</h2><p>LumeWeb failed to start correctly. Please check the developer console (F12) for details.</p><p>${e.message}</p></div>`;
+                }
+            }); // End DOMContentLoaded
+
+        })(); // End IIFE
+    </script>
+</body>
+</html>
