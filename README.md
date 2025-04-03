@@ -1,5 +1,10 @@
 # **LumeWeb Editor**
 
+![dark](https://github.com/user-attachments/assets/eb1d69a6-b7ba-4ed8-b681-fac10868c837)
+
+![light](https://github.com/user-attachments/assets/35354fd6-0189-419f-8099-9626510e1f6d)
+
+
 A simple, in-browser code editor for HTML, CSS, and JavaScript with a live preview pane.
 
 ## **What is LumeWeb?**
